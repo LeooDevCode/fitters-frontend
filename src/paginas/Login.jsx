@@ -1,9 +1,10 @@
 import { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [mensaje, setMensaje] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -19,6 +20,7 @@ function Login() {
     if (respuesta.ok) {
       localStorage.setItem('token', datos.token)
       setMensaje('Login exitoso')
+      navigate('/rutinas')
     } else {
       setMensaje(datos.error)
     }

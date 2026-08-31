@@ -27,7 +27,6 @@ function Registro() {
   return (
     <div>
       <h1>Crear cuenta</h1>
-      <p>PRUEBA 123</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

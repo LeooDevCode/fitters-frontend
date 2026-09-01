@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './paginas/Login'
 import Registro from './paginas/Registro'
 import Rutinas from './paginas/Rutinas'
+import RutaProtegida from './RutaProtegida'
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
-        <Route path="/rutinas" element={<Rutinas />} />
+        <Route path="/rutinas" element={<RutaProtegida><Rutinas /></RutaProtegida>} />
       </Routes>
     </BrowserRouter>
   )

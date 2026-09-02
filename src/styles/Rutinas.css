@@ -1,0 +1,229 @@
+
+.rutinas-screen {
+  min-height: 100vh;
+  background: var(--grafito);
+  padding-bottom: 3rem;
+}
+
+.rutinas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: var(--grafito-alto);
+  border-bottom: 3px solid var(--acero-borde);
+}
+
+.rutinas-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  color: var(--tiza);
+}
+
+.rutinas-brand span {
+  color: var(--oxido);
+}
+
+.rutinas-user {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--tiza-baja);
+  margin-right: 1rem;
+}
+
+.rutinas-header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.rutinas-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--tiza);
+  margin: 0 0 1rem;
+}
+
+.rutina-form-panel {
+  background: var(--acero);
+  border: 3px solid var(--acero-borde);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.45);
+  padding: 1.75rem 1.5rem;
+}
+
+.rutina-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  align-items: end;
+}
+
+@media (min-width: 640px) {
+  .rutina-form {
+    grid-template-columns: 2fr 1fr auto;
+  }
+}
+
+.rutina-form .field label {
+  color: var(--tiza-baja);
+}
+
+.rutina-form .field input,
+.rutina-form .field select {
+  border: none;
+  border-bottom: 3px solid var(--tiza-baja);
+  background: var(--grafito-alto);
+  color: var(--tiza);
+  padding: 0.65rem 0.7rem;
+}
+
+.rutina-form .field input::placeholder {
+  color: #8B8D90;
+}
+
+.rutina-form .field input:focus-visible,
+.rutina-form .field select:focus-visible {
+  border-bottom-color: var(--amarillo);
+  background: #232426;
+}
+
+.rutina-form .btn-primary {
+  white-space: nowrap;
+}
+
+.rutinas-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rutinas-empty {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--tiza-baja);
+  border: 2px dashed var(--acero-borde);
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.rutina-card {
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  background: var(--tiza);
+  border: 3px solid var(--grafito);
+  box-shadow: var(--shadow-sm);
+}
+
+.rutina-card:nth-child(3n + 1) { --canto: var(--oxido); }
+.rutina-card:nth-child(3n + 2) { --canto: var(--amarillo); }
+.rutina-card:nth-child(3n)     { --canto: var(--musgo); }
+
+.rutina-card::before {
+  content: '';
+  background: var(--canto, var(--oxido));
+}
+
+.rutina-card-main {
+  padding: 1rem 1.1rem;
+  min-width: 0;
+}
+
+.rutina-nombre {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--grafito);
+  margin: 0 0 0.3rem;
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+
+.rutina-dia {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--grafito);
+  background: var(--tiza-baja);
+  border: 2px solid var(--grafito);
+  padding: 0.2rem 0.5rem;
+}
+
+.rutina-toggle {
+  width: 44px;
+  border: none;
+  border-left: 3px solid var(--grafito);
+  background: var(--tiza-baja);
+  color: var(--grafito);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.08s ease;
+}
+
+.rutina-toggle:hover {
+  background: var(--amarillo);
+}
+
+.rutina-toggle[aria-expanded="true"] {
+  background: var(--grafito);
+  color: var(--tiza);
+}
+
+.rutina-card-expand {
+  grid-column: 1 / -1;
+  border-top: 2px solid var(--tiza-baja);
+  padding: 1rem 1.1rem 1.1rem;
+  background: #FBF9F4;
+}
+
+.rutina-card-expand[hidden] {
+  display: none;
+}
+
+.rutina-expand-placeholder {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: #7A776B;
+  margin: 0;
+}
+
+.ejercicio-row {
+  display: flex;
+  gap: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--grafito);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--tiza-baja);
+}
+
+.ejercicio-row:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 480px) {
+  .rutina-nombre {
+    font-size: 1.2rem;
+  }
+
+  .rutinas-header {
+    padding: 1rem;
+  }
+}

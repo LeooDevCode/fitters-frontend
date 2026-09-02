@@ -1,0 +1,143 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+:root {
+  --grafito: #17181A;
+  --grafito-alto: #1F2022;
+  --acero: #2A2B2D;
+  --acero-borde: #3D3E40;
+  --tiza: #F3EEE4;
+  --tiza-baja: #E7E0D2;
+  --oxido: #C24425;
+  --oxido-alto: #A2381E;
+  --amarillo: #E8A93A;
+  --amarillo-alto: #C98F27;
+  --musgo: #71815A;
+  --musgo-alto: #566345;
+  --tinta: #17181A;
+
+  --font-display: 'Big Shoulders Display', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --shadow-sm: 3px 3px 0 var(--grafito);
+  --shadow-md: 6px 6px 0 var(--grafito);
+  --shadow-md-oxido: 6px 6px 0 var(--oxido-alto);
+
+  --radius: 0px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--grafito);
+  color: var(--tiza);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  color: inherit;
+}
+
+a {
+  color: var(--amarillo);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--amarillo);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 3px solid var(--grafito);
+  border-radius: var(--radius);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: var(--tiza);
+  color: var(--grafito);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--grafito);
+}
+
+.btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--grafito);
+}
+
+.btn-primary {
+  background: var(--oxido);
+  border-color: var(--oxido-alto);
+  color: var(--tiza);
+  box-shadow: 3px 3px 0 var(--oxido-alto);
+}
+
+.btn-primary:hover {
+  box-shadow: 4px 4px 0 var(--oxido-alto);
+}
+
+.btn-primary:active {
+  box-shadow: 0 0 0 var(--oxido-alto);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--acero-borde);
+  color: var(--tiza);
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  border-color: var(--amarillo);
+  box-shadow: none;
+  transform: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.tape-strip {
+  height: 8px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--amarillo),
+    var(--amarillo) 10px,
+    var(--grafito) 10px,
+    var(--grafito) 20px
+  );
+}

@@ -1,3 +1,4 @@
+import '../styles/Auth.css'
 import { useState } from 'react'
 
 function Registro() {
@@ -23,34 +24,44 @@ function Registro() {
       setMensaje(datos.error)
     }
   }
+return (
+  <div className="auth-screen">
+    <aside className="auth-hero">
+      <h1 className="auth-hero-mark">FIT<span>TERS</span></h1>
+      <p className="auth-hero-tag">
+        Creá tu cuenta y armá tu primera rutina en un par de minutos.
+      </p>
+      <div className="tape-strip" />
+    </aside>
 
-  return (
-    <div>
-      <h1>Crear cuenta</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Registrarme</button>
+    <main className="auth-panel">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h2 className="auth-title">Crear cuenta</h2>
+        <p className="auth-subtitle">Sumate para empezar a entrenar con orden.</p>
+
+        <div className="field">
+          <label htmlFor="nombre">Nombre</label>
+          <input id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+        </div>
+
+        <div className="field">
+          <label htmlFor="email">Correo</label>
+          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+
+        <div className="field">
+          <label htmlFor="password">Contraseña</label>
+          <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+
+        <button className="btn btn-primary" type="submit">Crear cuenta</button>
+
+        {mensaje && <p className="auth-switch">{mensaje}</p>}
       </form>
-      {mensaje && <p>{mensaje}</p>}
-    </div>
-  )
+    </main>
+  </div>
+)
+  
 }
 
 export default Registro

@@ -6,6 +6,7 @@ function Ejercicios() {
   const [nombre, setNombre] = useState('')
   const [grupoMuscular, setGrupoMuscular] = useState('')
   const [descripcion, setDescripcion] = useState('')
+  const [filtroGrupo, setFiltroGrupo] = useState('')
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -69,12 +70,28 @@ function Ejercicios() {
 
         <section className="rutinas-list-section">
           <h2 className="panel-title">Catálogo de ejercicios</h2>
+        <select
+           value={filtroGrupo}
+           onChange={(e) => setFiltroGrupo(e.target.value)}
+           style={{ marginBottom: '1rem' }}
+            >
+          <option value="">Todos los grupos</option>
+          <option value="Pecho">Pecho</option>
+          <option value="Espalda">Espalda</option>
+          <option value="Piernas">Piernas</option>
+          <option value="Biceps">Biceps</option>
+          <option value="Triceps">Triceps</option>
+          <option value="Hombros">Hombros</option>
+          <option value="Abdomen">Abdomen</option>
+        </select>
 
           {ejercicios.length === 0 ? (
             <p className="rutinas-empty">Todavía no hay ejercicios cargados.</p>
           ) : (
             <ul className="rutinas-list">
-              {ejercicios.map((ej) => (
+              {ejercicios
+              .filter((ej) => filtroGrupo === '' || ej.grupo_muscular === filtroGrupo)
+              .map((ej) => (
                 <li className="rutina-card" key={ej.id}>
                   <div className="rutina-card-main">
                     <h3 className="rutina-nombre">{ej.nombre}</h3>

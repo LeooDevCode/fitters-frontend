@@ -164,7 +164,7 @@ function Rutinas() {
                           <span>{ej.nombre}</span>
                           <span>{ej.series} series</span>
                           <span>{ej.repeticiones} reps</span>
-                          <span>{ej.peso} kg</span>
+                          <span>{ej.peso} lb</span>
                         </div>
                       ))
                     )}
@@ -195,7 +195,7 @@ function Rutinas() {
                       </div>
 
                       <div className="field">
-                        <label>Peso (kg)</label>
+                        <label>Peso (lb)</label>
                         <input type="number" value={peso} onChange={(e) => setPeso(e.target.value)} required />
                       </div>
 

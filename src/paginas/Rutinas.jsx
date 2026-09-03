@@ -49,7 +49,10 @@ function Rutinas() {
         setDia('')
       })
   }
-
+  const handleLogout = () => {
+  localStorage.removeItem('token')
+  window.location.href = '/login'
+}
   const abrirRutina = (rutinaId) => {
     if (rutinaAbierta === rutinaId) {
       setRutinaAbierta(null)
@@ -95,9 +98,10 @@ function Rutinas() {
 
   return (
     <div className="rutinas-screen">
-      <header className="rutinas-header">
-        <span className="rutinas-brand">FIT<span>TERS</span></span>
-      </header>
+     <header className="rutinas-header">
+     <span className="rutinas-brand">FIT<span>TERS</span></span>
+     <button className="btn btn-ghost" onClick={handleLogout}>Cerrar sesión</button>
+     </header>
 
       <main className="rutinas-main">
         <section className="rutina-form-panel">

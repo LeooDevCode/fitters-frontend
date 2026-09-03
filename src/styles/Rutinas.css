@@ -78,6 +78,16 @@
 .rutina-form .field label {
   color: var(--tiza-baja);
 }
+.rutina-card-expand .field label {
+  color: var(--grafito);
+}
+
+.rutina-card-expand .field input,
+.rutina-card-expand .field select {
+  background: #fff;
+  color: var(--grafito);
+  border-bottom-color: var(--grafito);
+}
 
 .rutina-form .field input,
 .rutina-form .field select {

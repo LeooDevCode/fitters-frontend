@@ -13,6 +13,10 @@ function Rutinas() {
   const [series, setSeries] = useState('')
   const [repeticiones, setRepeticiones] = useState('')
   const [peso, setPeso] = useState('')
+  const [editandoId, setEditandoId] = useState(null)
+  const [editSeries, setEditSeries] = useState('')
+  const [editRepeticiones, setEditRepeticiones] = useState('')
+  const [editPeso, setEditPeso] = useState('')
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -95,6 +99,36 @@ function Rutinas() {
         setPeso('')
       })
   }
+  const iniciarEdicion = (ej) => {
+  setEditandoId(ej.id)
+  setEditSeries(ej.series)
+  setEditRepeticiones(ej.repeticiones)
+  setEditPeso(ej.peso)
+}
+
+const guardarEdicion = (id) => {
+  const token = localStorage.getItem('token')
+
+  fetch(`http://localhost:3001/rutina-ejercicios/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      series: editSeries,
+      repeticiones: editRepeticiones,
+      peso: editPeso
+    })
+  })
+    .then(respuesta => respuesta.json())
+    .then(() => {
+      setEjerciciosDeRutina(ejerciciosDeRutina.map((ej) =>
+        ej.id === id ? { ...ej, series: editSeries, repeticiones: editRepeticiones, peso: editPeso } : ej
+      ))
+      setEditandoId(null)
+    })
+}
 
   return (
     <div className="rutinas-screen">
@@ -164,20 +198,41 @@ function Rutinas() {
                       <p className="rutina-expand-placeholder">Sin ejercicios todavía.</p>
                     ) : (
                       ejerciciosDeRutina.map((ej) => (
-                        <div className="ejercicio-row" key={ej.id}>
-                          <span>{ej.nombre}</span>
-                          <span>{ej.series} series</span>
-                          <span>{ej.repeticiones} reps</span>
-                          <span>{ej.peso} lb</span>
-                        </div>
-                      ))
+  <div className="ejercicio-row" key={ej.id}>
+    {editandoId === ej.id ? (
+  <>
+    <span>{ej.nombre}</span>
+    <div className="edit-campo">
+      <label>Series</label>
+      <input type="number" value={editSeries} onChange={(e) => setEditSeries(e.target.value)} />
+    </div>
+    <div className="edit-campo">
+      <label>Reps</label>
+      <input type="number" value={editRepeticiones} onChange={(e) => setEditRepeticiones(e.target.value)} />
+    </div>
+    <div className="edit-campo">
+      <label>Lb</label>
+      <input type="number" value={editPeso} onChange={(e) => setEditPeso(e.target.value)} />
+    </div>
+    <button className="btn btn-primary" onClick={() => guardarEdicion(ej.id)}>Guardar</button>
+  </>
+) : (
+      <>
+        <span>{ej.nombre}</span>
+        <span>{ej.series} series</span>
+        <span>{ej.repeticiones} reps</span>
+        <span>{ej.peso} lb</span>
+        <button className="btn btn-ghost rutina-toggle-editar" onClick={() => iniciarEdicion(ej)}>Editar</button>
+      </>
+    )}
+  </div>
+))
                     )}
 
                     <form
-                      className="rutina-form"
-                      style={{ marginTop: '1rem' }}
+                      className="rutina-form agregar-ejercicio-form"
                       onSubmit={(e) => handleAgregarEjercicio(e, rutina.id)}
-                    >
+                      >
                       <div className="field">
                         <label>Ejercicio</label>
                         <select value={ejercicioId} onChange={(e) => setEjercicioId(e.target.value)} required>

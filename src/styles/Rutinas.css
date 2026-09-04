@@ -316,3 +316,6 @@
   color: #6B6858;
   font-weight: 600;
 }
+.progreso-form {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+}

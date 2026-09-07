@@ -319,3 +319,26 @@
 .progreso-form {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
 }
+.calendario-github {
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.calendario-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.calendario-dia {
+  width: 11px;
+  height: 11px;
+  background: var(--acero-borde);
+  border-radius: 2px;
+}
+
+.calendario-dia-activo {
+  background: var(--oxido);
+}

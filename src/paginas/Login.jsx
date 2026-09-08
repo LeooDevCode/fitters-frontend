@@ -21,7 +21,7 @@ function Login() {
     if (respuesta.ok) {
       localStorage.setItem('token', datos.token)
       setMensaje('Login exitoso')
-      navigate('/rutinas')
+      navigate('/inicio')
     } else {
       setMensaje(datos.error)
     }

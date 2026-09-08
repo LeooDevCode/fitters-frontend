@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import '../styles/Rutinas.css'
+import '../styles/tokens.css'
+import '../styles/puente-tokens.css'
+import '../styles/progreso.css'
 
 function Progreso() {
   const [rutinas, setRutinas] = useState([])
@@ -23,6 +25,7 @@ function Progreso() {
       .then(datos => setRutinas(datos))
 
     cargarRegistros()
+    return () => clearInterval(intervaloRef.current)
   }, [])
 
   const cargarRegistros = () => {
@@ -34,7 +37,7 @@ function Progreso() {
       .then(datos => setRegistros(datos))
   }
 
-    const empezarEntreno = (rutina) => {
+  const empezarEntreno = (rutina) => {
     const token = localStorage.getItem('token')
 
     fetch('http://localhost:3001/sesiones', {
@@ -64,7 +67,8 @@ function Progreso() {
                 series: ej.series,
                 repeticiones: ej.repeticiones,
                 peso: ej.peso,
-                hecho: false
+                hecho: false,
+                editando: false
               }
             })
             setCargas(cargasIniciales)
@@ -146,10 +150,6 @@ function Progreso() {
       })
   }
 
-  useEffect(() => {
-    return () => clearInterval(intervaloRef.current)
-  }, [])
-
   const fechasEntrenadas = new Set(registros.map((r) => r.fecha.slice(0, 10)))
 
   const generarDiasDelAnio = () => {
@@ -200,116 +200,114 @@ function Progreso() {
   const racha = calcularRachaSemanal()
 
   return (
-    <div className="rutinas-screen">
-      <header className="rutinas-header">
-        <span className="rutinas-brand">FIT<span>TERS</span></span>
-      </header>
+    <div className="progress-screen">
 
-      <main className="rutinas-main">
+      <section className="streak">
+        <div className="streak__header">
+          <span className="streak__label">Racha</span>
+          <span className="streak__count">{racha} <small>{racha === 1 ? 'semana' : 'semanas'}</small></span>
+        </div>
+        <div className="streak__scroller">
+          <div className="streak__grid">
+            {dias.map((dia) => (
+              <span
+                key={dia.fecha}
+                className={`streak__day ${dia.entrenado ? 'streak__day--done' : ''}`}
+                title={dia.fecha}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {!sesionActiva && !resumen && (
-          <section className="rutina-form-panel">
-            <h2 className="panel-title">Empezar entreno</h2>
-            <ul className="rutinas-list">
-              {rutinas.map((r) => (
-                <li className="rutina-card" key={r.id}>
-                  <div className="rutina-card-main">
-                    <h3 className="rutina-nombre">{r.nombre}</h3>
-                    <span className="rutina-dia">{r.dia}</span>
+      {!sesionActiva && !resumen && (
+        <section className="routine-select">
+          <h1 className="routine-select__title">Elegí tu rutina</h1>
+          <ul className="routine-select__list">
+            {rutinas.map((r) => (
+              <li className="routine-card" key={r.id}>
+                <div className="routine-card__info">
+                  <span className="routine-card__name">{r.nombre}</span>
+                  <span className="routine-card__meta">{r.dia}</span>
+                </div>
+                <button className="routine-card__start" onClick={() => empezarEntreno(r)}>
+                  Empezar
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {sesionActiva && (
+        <section className="session">
+          <header className="session__header">
+            <span className="session__routine-name">{rutinaActiva.nombre}</span>
+            <span className="session__timer">{formatearTiempo(segundos)}</span>
+          </header>
+
+          <ul className="session__list">
+            {ejerciciosSesion.map((ej) => {
+              const carga = cargas[ej.id] || {}
+              return (
+                <li className={`session__exercise ${carga.hecho ? 'session__exercise--done' : ''}`} key={ej.id}>
+                  <div className="session__exercise-main">
+                    <span className="session__exercise-name">{ej.nombre}</span>
+
+                    {carga.editando ? (
+                      <div className="session__edit-fields">
+                        <input className="session__edit-input" type="number" aria-label="Series" value={carga.series || ''} onChange={(e) => actualizarCarga(ej.id, 'series', e.target.value)} />
+                        <input className="session__edit-input" type="number" aria-label="Repeticiones" value={carga.repeticiones || ''} onChange={(e) => actualizarCarga(ej.id, 'repeticiones', e.target.value)} />
+                        <input className="session__edit-input" type="number" aria-label="Peso en libras" value={carga.peso || ''} onChange={(e) => actualizarCarga(ej.id, 'peso', e.target.value)} />
+                      </div>
+                    ) : (
+                      <span className="session__exercise-plan">{carga.series || 0} x {carga.repeticiones || 0} — {carga.peso || 0} lb</span>
+                    )}
                   </div>
-                  <button className="btn btn-primary" style={{ margin: '1rem' }} onClick={() => empezarEntreno(r)}>
-                    Empezar
-                  </button>
+
+                  <div className="session__exercise-actions">
+                    {!carga.hecho && (
+                      <button className="session__edit-btn" onClick={() => actualizarCarga(ej.id, 'editando', !carga.editando)}>
+                        {carga.editando ? 'Listo' : 'Editar'}
+                      </button>
+                    )}
+                    <button
+                      className={`session__check-btn ${carga.hecho ? 'session__check-btn--active' : ''}`}
+                      onClick={() => carga.hecho ? actualizarCarga(ej.id, 'hecho', false) : guardarEjercicio(ej)}
+                    >
+                      ✓
+                    </button>
+                  </div>
                 </li>
-              ))}
-            </ul>
-          </section>
-        )}
+              )
+            })}
+          </ul>
 
-        {sesionActiva && (
-          <section className="rutina-form-panel">
-            <h2 className="panel-title">{rutinaActiva.nombre} — {formatearTiempo(segundos)}</h2>
-
-           {ejerciciosSesion.map((ej) => {
-  const carga = cargas[ej.id] || {}
-  const enEdicion = carga.editando
-
-  return (
-    <div className="ejercicio-row" key={ej.id} style={{ opacity: carga.hecho ? 0.5 : 1 }}>
-      <span>{ej.nombre}</span>
-
-      {enEdicion ? (
-        <>
-          <div className="edit-campo">
-            <label>Series</label>
-            <input type="number" value={carga.series || ''} onChange={(e) => actualizarCarga(ej.id, 'series', e.target.value)} />
-          </div>
-          <div className="edit-campo">
-            <label>Reps</label>
-            <input type="number" value={carga.repeticiones || ''} onChange={(e) => actualizarCarga(ej.id, 'repeticiones', e.target.value)} />
-          </div>
-          <div className="edit-campo">
-            <label>Lb</label>
-            <input type="number" value={carga.peso || ''} onChange={(e) => actualizarCarga(ej.id, 'peso', e.target.value)} />
-          </div>
-        </>
-      ) : (
-        <span>{carga.series || 0} x {carga.repeticiones || 0} — {carga.peso || 0} lb</span>
+          <button className="session__finish-btn" onClick={terminarEntreno}>Terminar entreno</button>
+        </section>
       )}
 
-      {!carga.hecho && (
-        <button
-          className="btn btn-ghost rutina-toggle-editar"
-          onClick={() => actualizarCarga(ej.id, 'editando', !enEdicion)}
-        >
-          {enEdicion ? 'Listo' : 'Editar'}
-        </button>
-      )}
-
-      <button
-        className="btn btn-primary rutina-toggle-editar"
-        onClick={() => carga.hecho ? actualizarCarga(ej.id, 'hecho', false) : guardarEjercicio(ej)}
-      >
-        {carga.hecho ? '✓ Hecho' : '✓'}
-      </button>
-    </div>
-  )
-})}
-
-            <button className="btn btn-primary" style={{ marginTop: '1.25rem', width: '100%' }} onClick={terminarEntreno}>
-              Terminar entreno
-            </button>
-          </section>
-        )}
-
-        {resumen && (
-          <section className="rutina-form-panel">
-            <h2 className="panel-title">Entreno terminado</h2>
-            <p className="rutina-expand-placeholder">
-              Duración: {formatearTiempo(resumen.duracion)}<br />
-              Ejercicios completados: {resumen.ejerciciosHechos} / {resumen.totalEjercicios}<br />
-              Músculos trabajados: {resumen.grupos.join(', ')}
-            </p>
-            <button className="btn btn-primary" onClick={() => setResumen(null)}>Cerrar</button>
-          </section>
-        )}
-
-        <section className="rutina-form-panel">
-          <h2 className="panel-title">
-            Racha: {racha} {racha === 1 ? 'semana' : 'semanas'} seguidas entrenando
-          </h2>
-          <div className="calendario-github">
-            {semanas.map((semana, i) => (
-              <div className="calendario-columna" key={i}>
-                {semana.map((dia) => (
-                  <div key={dia.fecha} className={`calendario-dia ${dia.entrenado ? 'calendario-dia-activo' : ''}`} title={dia.fecha} />
-                ))}
-              </div>
+      {resumen && (
+        <section className="summary">
+          <h1 className="summary__title">Entreno terminado</h1>
+          <div className="summary__stats">
+            <div className="summary__stat">
+              <span className="summary__stat-value">{formatearTiempo(resumen.duracion)}</span>
+              <span className="summary__stat-label">Duración</span>
+            </div>
+            <div className="summary__stat">
+              <span className="summary__stat-value">{resumen.ejerciciosHechos}/{resumen.totalEjercicios}</span>
+              <span className="summary__stat-label">Completados</span>
+            </div>
+          </div>
+          <div className="summary__muscles">
+            {resumen.grupos.map((g) => (
+              <span className="summary__muscle-tag" key={g}>{g}</span>
             ))}
           </div>
         </section>
+      )}
 
-      </main>
     </div>
   )
 }

@@ -1,0 +1,30 @@
+:root {
+  --color-grafito: var(--grafito);
+  --color-grafito-alto: var(--grafito-alto);
+  --color-acero: var(--acero);
+  --color-acero-claro: var(--acero-borde);
+  --color-borde: #0C0D0E;
+
+  --color-oxido: var(--oxido);
+  --color-oxido-oscuro: var(--oxido-alto);
+  --color-amarillo: var(--amarillo);
+  --color-amarillo-oscuro: var(--amarillo-alto);
+  --color-musgo: var(--musgo);
+  --color-musgo-oscuro: var(--musgo-alto);
+
+  --color-texto: var(--tiza);
+  --color-texto-tenue: #98999B;
+  --color-texto-sobre-oxido: #F4EDE6;
+
+  --borde: 3px solid var(--color-borde);
+  --sombra-sm: 4px 4px 0 0 var(--color-borde);
+  --sombra-md: 6px 6px 0 0 var(--color-borde);
+  --sombra-lg: 10px 10px 0 0 var(--color-borde);
+
+  --space-1: 0.4rem;
+  --space-2: 0.8rem;
+  --space-3: 1.2rem;
+  --space-4: 1.8rem;
+  --space-5: 2.6rem;
+  --space-6: 4rem;
+}

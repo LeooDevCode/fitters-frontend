@@ -34,7 +34,7 @@ function Progreso() {
       .then(datos => setRegistros(datos))
   }
 
-  const empezarEntreno = (rutina) => {
+    const empezarEntreno = (rutina) => {
     const token = localStorage.getItem('token')
 
     fetch('http://localhost:3001/sesiones', {
@@ -60,7 +60,12 @@ function Progreso() {
             setEjerciciosSesion(datos.ejercicios)
             const cargasIniciales = {}
             datos.ejercicios.forEach((ej) => {
-              cargasIniciales[ej.id] = { series: '', repeticiones: '', peso: '', hecho: false }
+              cargasIniciales[ej.id] = {
+                series: ej.series,
+                repeticiones: ej.repeticiones,
+                peso: ej.peso,
+                hecho: false
+              }
             })
             setCargas(cargasIniciales)
           })
@@ -225,26 +230,51 @@ function Progreso() {
           <section className="rutina-form-panel">
             <h2 className="panel-title">{rutinaActiva.nombre} — {formatearTiempo(segundos)}</h2>
 
-            {ejerciciosSesion.map((ej) => (
-              <div className="ejercicio-row" key={ej.id} style={{ opacity: cargas[ej.id]?.hecho ? 0.5 : 1 }}>
-                <span>{ej.nombre}</span>
-                <div className="edit-campo">
-                  <label>Series</label>
-                  <input type="number" value={cargas[ej.id]?.series || ''} onChange={(e) => actualizarCarga(ej.id, 'series', e.target.value)} />
-                </div>
-                <div className="edit-campo">
-                  <label>Reps</label>
-                  <input type="number" value={cargas[ej.id]?.repeticiones || ''} onChange={(e) => actualizarCarga(ej.id, 'repeticiones', e.target.value)} />
-                </div>
-                <div className="edit-campo">
-                  <label>Lb</label>
-                  <input type="number" value={cargas[ej.id]?.peso || ''} onChange={(e) => actualizarCarga(ej.id, 'peso', e.target.value)} />
-                </div>
-                <button className="btn btn-ghost rutina-toggle-editar" onClick={() => guardarEjercicio(ej)}>
-                  {cargas[ej.id]?.hecho ? '✓ Hecho' : 'Guardar'}
-                </button>
-              </div>
-            ))}
+           {ejerciciosSesion.map((ej) => {
+  const carga = cargas[ej.id] || {}
+  const enEdicion = carga.editando
+
+  return (
+    <div className="ejercicio-row" key={ej.id} style={{ opacity: carga.hecho ? 0.5 : 1 }}>
+      <span>{ej.nombre}</span>
+
+      {enEdicion ? (
+        <>
+          <div className="edit-campo">
+            <label>Series</label>
+            <input type="number" value={carga.series || ''} onChange={(e) => actualizarCarga(ej.id, 'series', e.target.value)} />
+          </div>
+          <div className="edit-campo">
+            <label>Reps</label>
+            <input type="number" value={carga.repeticiones || ''} onChange={(e) => actualizarCarga(ej.id, 'repeticiones', e.target.value)} />
+          </div>
+          <div className="edit-campo">
+            <label>Lb</label>
+            <input type="number" value={carga.peso || ''} onChange={(e) => actualizarCarga(ej.id, 'peso', e.target.value)} />
+          </div>
+        </>
+      ) : (
+        <span>{carga.series || 0} x {carga.repeticiones || 0} — {carga.peso || 0} lb</span>
+      )}
+
+      {!carga.hecho && (
+        <button
+          className="btn btn-ghost rutina-toggle-editar"
+          onClick={() => actualizarCarga(ej.id, 'editando', !enEdicion)}
+        >
+          {enEdicion ? 'Listo' : 'Editar'}
+        </button>
+      )}
+
+      <button
+        className="btn btn-primary rutina-toggle-editar"
+        onClick={() => carga.hecho ? actualizarCarga(ej.id, 'hecho', false) : guardarEjercicio(ej)}
+      >
+        {carga.hecho ? '✓ Hecho' : '✓'}
+      </button>
+    </div>
+  )
+})}
 
             <button className="btn btn-primary" style={{ marginTop: '1.25rem', width: '100%' }} onClick={terminarEntreno}>
               Terminar entreno

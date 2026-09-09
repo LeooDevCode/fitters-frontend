@@ -179,7 +179,7 @@ function Progreso() {
   const calcularRachaSemanal = () => {
     let racha = 0
     const hoy = new Date()
-    for (let i = 0; i < 104; i++) {
+    for (let i = 1; i < 104; i++) {
       const finSemana = new Date(hoy)
       finSemana.setDate(hoy.getDate() - i * 7)
       const inicioSemana = new Date(finSemana)
@@ -228,7 +228,7 @@ function Progreso() {
               <li className="routine-card" key={r.id}>
                 <div className="routine-card__info">
                   <span className="routine-card__name">{r.nombre}</span>
-                  <span className="routine-card__meta">{r.dia}</span>
+                  <span className="routine-card__meta">{r.dia || 'Rutina'}</span>
                 </div>
                 <button className="routine-card__start" onClick={() => empezarEntreno(r)}>
                   Empezar

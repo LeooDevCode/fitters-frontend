@@ -20,7 +20,6 @@ function Inicio() {
 
       <div className="home__grid">
         <button className="home__card home__card--hero" onClick={() => navigate('/progreso')}>
-          <span className="home__card-kicker">001 / prioridad</span>
           <span className="home__card-title">Empezar<br/>entreno</span>
           <span className="home__card-desc">Arrancá tu sesión de hoy</span>
           <span className="home__card-arrow">→</span>

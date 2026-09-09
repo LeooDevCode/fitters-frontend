@@ -53,10 +53,12 @@ function Rutinas() {
         setDia('')
       })
   }
-  const handleLogout = () => {
+ 
+ const handleLogout = () => {
   localStorage.removeItem('token')
   window.location.href = '/login'
 }
+
   const abrirRutina = (rutinaId) => {
     if (rutinaAbierta === rutinaId) {
       setRutinaAbierta(null)
@@ -99,6 +101,17 @@ function Rutinas() {
         setPeso('')
       })
   }
+  const eliminarRutina = (id) => {
+  const token = localStorage.getItem('token')
+
+  fetch(`http://localhost:3001/rutinas/${id}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+    .then(() => {
+      setRutinas(rutinas.filter((r) => r.id !== id))
+    })
+}
   const iniciarEdicion = (ej) => {
   setEditandoId(ej.id)
   setEditSeries(ej.series)
@@ -150,20 +163,11 @@ const guardarEdicion = (id) => {
                 placeholder="Ej: Pierna, Empuje, Full body"
               />
             </div>
-
-            <div className="field">
-              <label htmlFor="diaRutina">Día</label>
-              <select id="diaRutina" value={dia} onChange={(e) => setDia(e.target.value)}>
-                <option value="">Elegir...</option>
-                <option value="Lunes">Lunes</option>
-                <option value="Martes">Martes</option>
-                <option value="Miércoles">Miércoles</option>
-                <option value="Jueves">Jueves</option>
-                <option value="Viernes">Viernes</option>
-                <option value="Sábado">Sábado</option>
-                <option value="Domingo">Domingo</option>
-              </select>
+           <div className="field">
+            <label htmlFor="diaRutina">Nota (opcional)</label>
+             <input id="diaRutina" value={dia} onChange={(e) => setDia(e.target.value)} placeholder="Ej: después del cardio" />
             </div>
+           
 
             <button className="btn btn-primary" type="submit">Crear rutina</button>
           </form>
@@ -184,7 +188,23 @@ const guardarEdicion = (id) => {
                     <h3 className="rutina-nombre">{rutina.nombre}</h3>
                     <span className="rutina-dia">{rutina.dia}</span>
                   </div>
+                 <li className="rutina-card" key={rutina.id}>
+  <div className="rutina-card-main">
+    <h3 className="rutina-nombre">{rutina.nombre}</h3>
+    <span className="rutina-dia">{rutina.dia}</span>
+  </div>
 
+  <button className="btn btn-ghost" onClick={() => eliminarRutina(rutina.id)}>
+    Eliminar
+  </button>
+
+  <button
+    className="rutina-toggle"
+    aria-expanded={rutinaAbierta === rutina.id}
+    onClick={() => abrirRutina(rutina.id)}
+  >
+    {rutinaAbierta === rutina.id ? '–' : '+'}
+  </button>
                   <button
                     className="rutina-toggle"
                     aria-expanded={rutinaAbierta === rutina.id}

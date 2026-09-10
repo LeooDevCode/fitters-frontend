@@ -39,6 +39,29 @@ function Ejercicios() {
       })
   }
 
+  const eliminarEjercicio = (id) => {
+    const confirmar = window.confirm('¿Eliminar este ejercicio del catálogo? Si está usado en alguna rutina, podría fallar.')
+    if (!confirmar) return
+
+    const token = localStorage.getItem('token')
+
+    fetch(`http://localhost:3001/ejercicios/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(respuesta => {
+        if (!respuesta.ok) throw new Error('No se pudo eliminar')
+        return respuesta.json()
+      })
+      .then(() => {
+        setEjercicios(ejercicios.filter(ej => ej.id !== id))
+      })
+      .catch(error => {
+        console.error(error)
+        alert('No se pudo eliminar el ejercicio (puede estar en uso en alguna rutina).')
+      })
+  }
+
   return (
     <div className="rutinas-screen">
       <header className="rutinas-header">
@@ -48,7 +71,7 @@ function Ejercicios() {
       <main className="rutinas-main">
         <section className="rutina-form-panel">
           <h2 className="panel-title">Nuevo ejercicio</h2>
-          <form className="rutina-form" onSubmit={handleSubmit}>
+          <form className="rutina-form ejercicio-form" onSubmit={handleSubmit}>
             <div className="field">
               <label htmlFor="nombreEjercicio">Nombre</label>
               <input id="nombreEjercicio" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Press banca" />
@@ -70,35 +93,38 @@ function Ejercicios() {
 
         <section className="rutinas-list-section">
           <h2 className="panel-title">Catálogo de ejercicios</h2>
-        <select
-           value={filtroGrupo}
-           onChange={(e) => setFiltroGrupo(e.target.value)}
-           style={{ marginBottom: '1rem' }}
-            >
-          <option value="">Todos los grupos</option>
-          <option value="Pecho">Pecho</option>
-          <option value="Espalda">Espalda</option>
-          <option value="Piernas">Piernas</option>
-          <option value="Biceps">Biceps</option>
-          <option value="Triceps">Triceps</option>
-          <option value="Hombros">Hombros</option>
-          <option value="Abdomen">Abdomen</option>
-        </select>
+          <select
+            value={filtroGrupo}
+            onChange={(e) => setFiltroGrupo(e.target.value)}
+            style={{ marginBottom: '1rem' }}
+          >
+            <option value="">Todos los grupos</option>
+            <option value="Pecho">Pecho</option>
+            <option value="Espalda">Espalda</option>
+            <option value="Piernas">Piernas</option>
+            <option value="Biceps">Biceps</option>
+            <option value="Triceps">Triceps</option>
+            <option value="Hombros">Hombros</option>
+            <option value="Abdomen">Abdomen</option>
+          </select>
 
           {ejercicios.length === 0 ? (
             <p className="rutinas-empty">Todavía no hay ejercicios cargados.</p>
           ) : (
-            <ul className="rutinas-list">
+            <ul className="catalogo-grid">
               {ejercicios
-              .filter((ej) => filtroGrupo === '' || ej.grupo_muscular === filtroGrupo)
-              .map((ej) => (
-                <li className="rutina-card" key={ej.id}>
-                  <div className="rutina-card-main">
+                .filter((ej) => filtroGrupo === '' || ej.grupo_muscular === filtroGrupo)
+                .map((ej) => (
+                  <li className="ejercicio-ficha" key={ej.id}>
                     <h3 className="rutina-nombre">{ej.nombre}</h3>
-                    <span className="rutina-dia">{ej.grupo_muscular}</span>
-                  </div>
-                </li>
-              ))}
+                    <div className="ejercicio-ficha-footer">
+                      <span className="grupo-badge">{ej.grupo_muscular}</span>
+                      <button className="btn-eliminar" onClick={() => eliminarEjercicio(ej.id)}>
+                        Eliminar
+                      </button>
+                    </div>
+                  </li>
+                ))}
             </ul>
           )}
         </section>

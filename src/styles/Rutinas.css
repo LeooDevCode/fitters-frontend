@@ -342,3 +342,238 @@
 .calendario-dia-activo {
   background: var(--oxido);
 }
+.rutina-card {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.rutina-card-header {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-sizing: border-box;
+  padding: 20px 18px 20px 22px;
+}
+
+.rutina-card-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.rutina-nombre {
+  margin: 0;
+  font-size: 25px;
+  text-align: left;
+  word-break: break-word;
+}
+
+.rutina-dia {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.rutina-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-eliminar {
+  border: 2px solid #c43d21;
+  background: #c43d21;
+  color: white;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.btn-eliminar:hover {
+  background: #a9321c;
+}
+
+.rutina-toggle {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border: 2px solid #333;
+  background: #f2eee5;
+  color: #111;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.rutina-toggle:hover {
+  background: #ddd7ca;
+}
+
+.rutina-card-expand {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  border-top: 2px solid #333;
+}
+
+.ejercicio-row {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #555;
+}
+
+.ejercicio-row > span:first-child {
+  flex: 1;
+  font-weight: bold;
+}
+
+.rutina-toggle-editar {
+  margin-left: auto;
+}
+
+.agregar-ejercicio-form {
+  margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .rutina-card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rutina-card-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .ejercicio-row {
+    flex-wrap: wrap;
+  }
+}
+.ejercicio-form {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .ejercicio-form {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .ejercicio-form .btn-primary {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+
+.ejercicio-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.ejercicio-card-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.ejercicio-card-actions {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.grupo-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--oxido);
+  background: transparent;
+  border: 2px solid var(--oxido);
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+}
+.ejercicio-form {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .ejercicio-form {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .ejercicio-form .btn-primary {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+.catalogo-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.ejercicio-ficha {
+  background: var(--tiza);
+  border: 3px solid var(--grafito);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ejercicio-ficha .rutina-nombre {
+  font-size: 1.15rem;
+  margin: 0;
+  color: var(--grafito);
+}
+
+.ejercicio-ficha-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ejercicio-ficha .btn-eliminar {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  min-width: auto;
+}
+
+.grupo-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--oxido);
+  background: transparent;
+  border: 2px solid var(--oxido);
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+}

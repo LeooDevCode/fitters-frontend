@@ -372,9 +372,14 @@
 }
 
 .rutina-dia {
-  display: block;
+  display: inline-block;
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 12px;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--grafito);
+  background: transparent;
+  color: var(--grafito);
+  width: auto;
 }
 
 .rutina-card-actions {
@@ -576,4 +581,39 @@
   border: 2px solid var(--oxido);
   padding: 0.2rem 0.5rem;
   white-space: nowrap;
+}
+.rutina-form .field {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.rutina-form .field input,
+.rutina-form .field select {
+  width: 100%;
+  box-sizing: border-box;
+}
+.rutinas-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.rutina-card-header {
+  min-height: auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.rutina-card-main {
+  flex: 1;
+}
+
+.rutina-nombre {
+  font-size: 20px;
+}
+
+.rutina-card-actions {
+  justify-content: flex-end;
 }

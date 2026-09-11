@@ -251,13 +251,9 @@ function Rutinas() {
 
   <div className="rutina-card-header">
 
-    <div className="rutina-card-main">
-      <h3 className="rutina-nombre">{rutina.nombre}</h3>
-
-      {rutina.dia && (
-        <span className="rutina-dia">{rutina.dia}</span>
-      )}
-    </div>
+   <div className="rutina-card-main">
+  <h3 className="rutina-nombre">{rutina.nombre}</h3>
+</div>
 
     <div className="rutina-card-actions">
 

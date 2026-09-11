@@ -20,6 +20,10 @@ function Ejercicios() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (!grupoMuscular) {
+      alert('Elegí un grupo muscular')
+      return
+    }
     const token = localStorage.getItem('token')
 
     fetch('http://localhost:3001/ejercicios', {
@@ -79,7 +83,16 @@ function Ejercicios() {
 
             <div className="field">
               <label htmlFor="grupoMuscular">Grupo muscular</label>
-              <input id="grupoMuscular" value={grupoMuscular} onChange={(e) => setGrupoMuscular(e.target.value)} placeholder="Ej: Pecho" />
+              <select id="grupoMuscular" value={grupoMuscular} onChange={(e) => setGrupoMuscular(e.target.value)}>
+                <option value="">Elegí un grupo</option>
+                <option value="Pecho">Pecho</option>
+                <option value="Espalda">Espalda</option>
+                <option value="Piernas">Piernas</option>
+                <option value="Biceps">Biceps</option>
+                <option value="Triceps">Triceps</option>
+                <option value="Hombros">Hombros</option>
+                <option value="Abdomen">Abdomen</option>
+              </select>
             </div>
 
             <div className="field">
